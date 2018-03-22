@@ -14,8 +14,10 @@ module Airbnb
       #   metadata: { }
       # }
       ##
-      def show(id)
-        response = HTTP.get("#{Airbnb::V2::URL}/users/#{id}", params: { _format: 'v1_legacy_show', client_id: client_id })
+      def show(id, query={})
+        params = { _format: 'v1_legacy_show', client_id: client_id }
+        params.merge!(query)
+        response = HTTP.get("#{Airbnb::V2::URL}/users/#{id}", params: params)
         JSON.parse(response.to_str)
       end
       
@@ -39,8 +41,10 @@ module Airbnb
       #   }
       # }
       ##
-      def host_listings(id)
-        response = HTTP.get("#{Airbnb::V2::URL}/listings", params: { client_id: client_id, user_id: id })
+      def host_listings(id, query={})
+        params = { client_id: client_id, user_id: id }
+        params.merge!(query)
+        response = HTTP.get("#{Airbnb::V2::URL}/listings", params: params)
         JSON.parse(response.to_str)
       end
     end
