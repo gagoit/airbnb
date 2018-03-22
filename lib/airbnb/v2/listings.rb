@@ -17,8 +17,9 @@ module Airbnb
       #   ]
       # }
       ##
-      def show(id)
-        response = HTTP.get("#{Airbnb::V2::URL}/listings/#{id}", params: { _format: 'v1_legacy_for_p3', client_id: client_id })
+      def show(id, query={})
+        params = { _format: 'v1_legacy_for_p3', client_id: client_id }
+        response = HTTP.get("#{Airbnb::V2::URL}/listings/#{id}", params: params)
         JSON.parse(response.to_str)
       end
       
@@ -37,7 +38,7 @@ module Airbnb
       #   ]
       # }
       ##
-      def search(query)
+      def search(query={})
         params = { client_id: client_id }
         params.merge!(query)
         response = HTTP.get("#{Airbnb::V2::URL}/search_results", params: params)
@@ -66,7 +67,7 @@ module Airbnb
       #   ]
       # }
       ##
-      def reviews(id, query)
+      def reviews(id, query={})
         params = { client_id: client_id, role: 'all', listing_id: id }
         params.merge!(query)
         response = HTTP.get("#{Airbnb::V2::URL}/reviews", params: params)
